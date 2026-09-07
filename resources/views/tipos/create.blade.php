@@ -1,0 +1,28 @@
+@extends('layouts.app')
+
+@section('title', 'Nuevo tipo')
+
+@section('content')
+<h1>Nuevo tipo</h1>
+
+<form action="{{ route('tipos.store') }}" method="POST" class="mt-3">
+    @csrf
+    <div class="mb-3">
+        <label class="form-label">Nombre:</label>
+        <input type="text" name="Nombre" value="{{ old('Nombre') }}" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Categoría:</label>
+        <select name="FkId_Categoria" class="form-select" required>
+            <option value="">-- Selecciona una categoría --</option>
+            @foreach($categorias as $categoria)
+                <option value="{{ $categoria->Id_Categoria }}" {{ old('FkId_Categoria') == $categoria->Id_Categoria ? 'selected' : '' }}>
+                    {{ $categoria->Nombre }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="{{ route('tipos.index') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+@endsection
