@@ -11,7 +11,11 @@ class EmpleadoController extends Controller
 {
     public function index()
     {
-        $empleados = Empleado::with(['puesto', 'area'])->where('Estatus', 'Activo')->orderBy('Nombre')->paginate(15);
+        $empleados = Empleado::with(['puesto', 'area'])->where(function ($query) {
+            $query->where('status', 'activo')->orWhere(function ($nestedQuery) {
+                $nestedQuery->whereNull('status')->where('Estatus', 'Activo');
+            });
+        })->orderBy('Nombre')->paginate(15);
         return view('empleados.index', compact('empleados'));
     }
 
@@ -34,10 +38,13 @@ class EmpleadoController extends Controller
             'Estatus' => 'required|in:Activo,Inactivo,Baja',
         ]);
 
-        Empleado::create($request->only(
+        $data = $request->only(
             'N_Trabajador', 'Nombre', 'Apellido_Paterno', 'Apellido_Materno',
             'FkId_Puesto', 'FkId_Area', 'Estatus'
-        ));
+        );
+        $data['status'] = strtolower($data['Estatus']);
+
+        Empleado::create($data);
 
         return redirect()->route('empleados.index')->with('ok', 'Empleado registrado correctamente');
     }
@@ -61,17 +68,20 @@ class EmpleadoController extends Controller
             'Estatus' => 'required|in:Activo,Inactivo,Baja',
         ]);
 
-        $empleado->update($request->only(
+        $data = $request->only(
             'N_Trabajador', 'Nombre', 'Apellido_Paterno', 'Apellido_Materno',
             'FkId_Puesto', 'FkId_Area', 'Estatus'
-        ));
+        );
+        $data['status'] = strtolower($data['Estatus']);
+
+        $empleado->update($data);
 
         return redirect()->route('empleados.index')->with('ok', 'Empleado actualizado correctamente');
     }
 
     public function destroy(Empleado $empleado)
     {
-        $empleado->update(['Estatus' => 'Inactivo']);
+        $empleado->update(['Estatus' => 'Inactivo', 'status' => 'inactivo']);
         return redirect()->route('empleados.index')->with('ok', 'Empleado dado de baja correctamente');
     }
 }

@@ -10,12 +10,12 @@ class AreasSeeder extends Seeder
     public function run(): void
     {
         DB::table('areas')->insert([
-            ['Id_Area' => 1, 'Nombre' => 'Dirección'],
-            ['Id_Area' => 2, 'Nombre' => 'Administración'],
-            ['Id_Area' => 3, 'Nombre' => 'Académica'],
-            ['Id_Area' => 4, 'Nombre' => 'Planeación y Vinculación'],
-            ['Id_Area' => 5, 'Nombre' => 'Control Escolar'],
-            ['Id_Area' => 6, 'Nombre' => 'TICS'],
+            ['Id_Area' => 1, 'Nombre' => 'Dirección', 'status' => 'activo', 'Estatus' => 'Activo'],
+            ['Id_Area' => 2, 'Nombre' => 'Administración', 'status' => 'activo', 'Estatus' => 'Activo'],
+            ['Id_Area' => 3, 'Nombre' => 'Académica', 'status' => 'activo', 'Estatus' => 'Activo'],
+            ['Id_Area' => 4, 'Nombre' => 'Planeación y Vinculación', 'status' => 'activo', 'Estatus' => 'Activo'],
+            ['Id_Area' => 5, 'Nombre' => 'Control Escolar', 'status' => 'inactivo', 'Estatus' => 'Inactivo'],
+            ['Id_Area' => 6, 'Nombre' => 'TICS', 'status' => 'activo', 'Estatus' => 'Activo'],
         ]);
     }
 }

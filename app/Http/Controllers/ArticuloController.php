@@ -16,6 +16,11 @@ class ArticuloController extends Controller
     public function index(Request $request)
 {
     $articulos = Articulo::with(['marca', 'modelo', 'categoria', 'ubicacion', 'empleado'])
+        ->where(function ($query) {
+            $query->where('status', 'activo')->orWhere(function ($nestedQuery) {
+                $nestedQuery->whereNull('status')->where('Estatus', 'Activo');
+            });
+        })
         ->when($request->ubicacion, fn($q) => $q->where('FkId_Ubicacion', $request->ubicacion))
         ->when($request->categoria, fn($q) => $q->where('FkId_Categoria', $request->categoria))
         ->when($request->tipo, fn($q) => $q->where('FkId_Tipo', $request->tipo))
@@ -126,7 +131,11 @@ class ArticuloController extends Controller
         'Motivo' => 'nullable|string|max:300',
     ]);
 
-    $articulo->update(['Tipo_Articulo' => 'En Proceso de Baja']);
+    $articulo->update([
+        'Tipo_Articulo' => 'En Proceso de Baja',
+        'Estatus' => 'Inactivo',
+        'status' => 'inactivo',
+    ]);
 
     \App\Models\ArticuloBaja::create([
         'FkId_Articulo' => $articulo->Id_Articulo,
@@ -134,7 +143,7 @@ class ArticuloController extends Controller
         'Motivo' => $request->input('Motivo'),
     ]);
 
-    return redirect()->route('articulos.index')->with('ok', 'Artículo marcado como "En Proceso de Baja" y registrado en el histórico de bajas');
+    return redirect()->route('articulos.index')->with('ok', 'Artículo marcado como inactivo y registrado en el histórico de bajas');
 }
 
     private function catalogos()

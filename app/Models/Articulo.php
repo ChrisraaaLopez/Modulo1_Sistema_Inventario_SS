@@ -14,7 +14,20 @@ class Articulo extends Model
         'Descripcion', 'FkId_Marca', 'FkId_Modelo', 'N_Serie', 'Color',
         'FkId_Categoria', 'FkId_Tipo', 'FkId_Ubicacion', 'FkId_Empleado',
         'FkId_Factura', 'Notas', 'Comentarios', 'Estado', 'Tipo_Articulo', 'URL_Imagen',
+        'status', 'Estatus',
     ];
+
+    public function setEstatusAttribute($value): void
+    {
+        $this->attributes['Estatus'] = $value;
+        $this->attributes['status'] = is_string($value) ? strtolower($value) : $value;
+    }
+
+    public function setStatusAttribute($value): void
+    {
+        $this->attributes['status'] = $value;
+        $this->attributes['Estatus'] = is_string($value) ? ucfirst(strtolower($value)) : $value;
+    }
 
     public function marca()      { return $this->belongsTo(Marca::class, 'FkId_Marca'); }
     public function modelo()     { return $this->belongsTo(Modelo::class, 'FkId_Modelo'); }

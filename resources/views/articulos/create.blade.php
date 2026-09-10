@@ -126,7 +126,20 @@
 
     <div class="mb-3">
         <label class="form-label">Imagen del artículo (opcional):</label>
-        <input type="file" name="imagen" class="form-control" accept="image/*">
+        <div class="d-flex flex-wrap gap-2 align-items-center mb-2">
+            <input type="file" id="imagenArchivo" name="imagen" class="form-control" accept="image/*">
+            <button type="button" id="btnTomarFoto" class="btn btn-outline-primary">Tomar foto</button>
+            <button type="button" id="btnCancelarFoto" class="btn btn-outline-secondary d-none">Cancelar</button>
+        </div>
+        <div id="selectorCamaraWrap" class="mb-2 d-none">
+            <label class="form-label small mb-1">Selecciona cámara:</label>
+            <select id="selectorCamara" class="form-select" style="max-width: 320px;"></select>
+        </div>
+        <video id="videoCamara" class="d-none border rounded" autoplay playsinline muted style="max-width: 320px; width: 100%;"></video>
+        <canvas id="canvasFoto" class="d-none"></canvas>
+        <div id="previewFoto" class="d-none mt-2">
+            <img id="fotoPreview" src="" alt="Vista previa" class="img-thumbnail" style="max-width: 220px;">
+        </div>
     </div>
 
     <button type="submit" class="btn btn-primary">Guardar</button>
@@ -134,6 +147,161 @@
 </form>
 
 <script>
+const inputImagen = document.getElementById('imagenArchivo');
+const video = document.getElementById('videoCamara');
+const canvas = document.getElementById('canvasFoto');
+const preview = document.getElementById('previewFoto');
+const previewImg = document.getElementById('fotoPreview');
+const btnTomarFoto = document.getElementById('btnTomarFoto');
+const btnCancelarFoto = document.getElementById('btnCancelarFoto');
+const selectorCamara = document.getElementById('selectorCamara');
+const selectorCamaraWrap = document.getElementById('selectorCamaraWrap');
+let streamCamera = null;
+let cameraDevices = [];
+
+function mostrarPreview(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        previewImg.src = e.target.result;
+        preview.classList.remove('d-none');
+    };
+    reader.readAsDataURL(file);
+}
+
+async function detectarCamaras() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return [];
+
+    try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        return devices.filter(device => device.kind === 'videoinput');
+    } catch (error) {
+        return [];
+    }
+}
+
+function poblarSelectorCamaras() {
+    selectorCamara.innerHTML = '';
+
+    if (cameraDevices.length > 1) {
+        selectorCamaraWrap.classList.remove('d-none');
+        cameraDevices.forEach((device, index) => {
+            const option = document.createElement('option');
+            option.value = device.deviceId;
+            option.textContent = device.label || `Cámara ${index + 1}`;
+            selectorCamara.appendChild(option);
+        });
+        if (!selectorCamara.value) {
+            selectorCamara.value = cameraDevices[0].deviceId;
+        }
+    } else {
+        selectorCamaraWrap.classList.add('d-none');
+    }
+}
+
+async function abrirCamara(deviceId = null) {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        inputImagen.setAttribute('capture', 'environment');
+        inputImagen.click();
+        return;
+    }
+
+    try {
+        const permisoInicial = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+        permisoInicial.getTracks().forEach(track => track.stop());
+    } catch (error) {
+        // El navegador bloqueó el acceso; se cae al input de archivo como respaldo.
+    }
+
+    cameraDevices = await detectarCamaras();
+    poblarSelectorCamaras();
+
+    const selectedDeviceId = deviceId || selectorCamara.value || cameraDevices[0]?.deviceId;
+    const constraints = selectedDeviceId
+        ? {
+            video: { deviceId: { exact: selectedDeviceId } },
+            audio: false,
+        }
+        : {
+            video: { facingMode: 'environment' },
+            audio: false,
+        };
+
+    try {
+        streamCamera = await navigator.mediaDevices.getUserMedia(constraints);
+        video.srcObject = streamCamera;
+        video.classList.remove('d-none');
+        btnCancelarFoto.classList.remove('d-none');
+        btnTomarFoto.textContent = 'Capturar foto';
+    } catch (error) {
+        try {
+            streamCamera = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: 'user' },
+                audio: false,
+            });
+            video.srcObject = streamCamera;
+            video.classList.remove('d-none');
+            btnCancelarFoto.classList.remove('d-none');
+            btnTomarFoto.textContent = 'Capturar foto';
+        } catch (fallbackError) {
+            inputImagen.setAttribute('capture', 'environment');
+            inputImagen.click();
+        }
+    }
+}
+
+function cerrarCamara() {
+    if (streamCamera) {
+        streamCamera.getTracks().forEach(track => track.stop());
+        streamCamera = null;
+    }
+
+    video.srcObject = null;
+    video.classList.add('d-none');
+    btnCancelarFoto.classList.add('d-none');
+    btnTomarFoto.textContent = 'Tomar foto';
+}
+
+selectorCamara.addEventListener('change', async () => {
+    if (streamCamera) {
+        cerrarCamara();
+    }
+    await abrirCamara(selectorCamara.value);
+});
+
+btnTomarFoto.addEventListener('click', async () => {
+    if (!streamCamera) {
+        await abrirCamara();
+        return;
+    }
+
+    const context = canvas.getContext('2d');
+    canvas.width = video.videoWidth || 1280;
+    canvas.height = video.videoHeight || 720;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    canvas.toBlob((blob) => {
+        if (!blob) return;
+
+        const file = new File([blob], `articulo-${Date.now()}.png`, { type: 'image/png' });
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        inputImagen.files = dataTransfer.files;
+        mostrarPreview(file);
+        cerrarCamara();
+    }, 'image/png');
+});
+
+btnCancelarFoto.addEventListener('click', () => {
+    cerrarCamara();
+});
+
+inputImagen.addEventListener('change', () => {
+    if (inputImagen.files && inputImagen.files[0]) {
+        mostrarPreview(inputImagen.files[0]);
+    }
+});
+
 document.getElementById('marca').addEventListener('change', function () {
     const marcaId = this.value;
     const modeloSelect = document.getElementById('modelo');

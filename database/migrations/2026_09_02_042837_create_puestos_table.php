@@ -11,6 +11,8 @@ return new class extends Migration
         Schema::create('puestos', function (Blueprint $table) {
             $table->id('Id_Puesto');
             $table->string('Nombre', 100);
+            $table->enum('Estatus', ['Activo', 'Inactivo'])->default('Activo');
+            $table->enum('status', ['activo', 'inactivo'])->default('activo');
         });
     }
 

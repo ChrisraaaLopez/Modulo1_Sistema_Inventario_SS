@@ -45,18 +45,6 @@
         </select>
     </div>
 
-    @if($modelo->URL_Imagen)
-        <div class="mb-3">
-            <label class="form-label d-block">Imagen actual:</label>
-            <img src="{{ Storage::url($modelo->URL_Imagen) }}" width="120">
-        </div>
-    @endif
-
-    <div class="mb-3">
-        <label class="form-label">Reemplazar imagen (opcional):</label>
-        <input type="file" name="imagen" class="form-control" accept="image/*">
-    </div>
-
     <button type="submit" class="btn btn-primary">Actualizar</button>
     <a href="{{ route('modelos.index') }}" class="btn btn-secondary">Cancelar</a>
 </form>

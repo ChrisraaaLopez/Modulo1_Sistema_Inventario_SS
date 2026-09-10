@@ -11,6 +11,8 @@ return new class extends Migration
         Schema::create('areas', function (Blueprint $table) {
             $table->id('Id_Area');
             $table->string('Nombre', 50);
+            $table->enum('Estatus', ['Activo', 'Inactivo'])->default('Activo');
+            $table->enum('status', ['activo', 'inactivo'])->default('activo');
         });
     }
 

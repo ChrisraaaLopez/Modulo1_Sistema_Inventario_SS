@@ -11,6 +11,8 @@ return new class extends Migration
         Schema::create('categorias', function (Blueprint $table) {
             $table->id('Id_Categoria');
             $table->string('Nombre', 200);
+            $table->enum('Estatus', ['Activo', 'Inactivo'])->default('Activo');
+            $table->enum('status', ['activo', 'inactivo'])->default('activo');
         });
     }
 

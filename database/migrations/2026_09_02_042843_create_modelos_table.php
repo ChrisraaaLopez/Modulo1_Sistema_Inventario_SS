@@ -18,6 +18,8 @@ return new class extends Migration
                 ->constrained('tipos', 'Id_Tipo')
                 ->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('URL_Imagen', 200)->nullable();
+            $table->enum('Estatus', ['Activo', 'Inactivo'])->default('Activo');
+            $table->enum('status', ['activo', 'inactivo'])->default('activo');
         });
     }
 

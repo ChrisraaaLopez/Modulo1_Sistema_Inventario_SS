@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             AreasSeeder::class,
             CategoriasSeeder::class,
             DemoModulo1Seeder::class,
+            ExtendedDemoSeeder::class,
         ]);
     }
 }

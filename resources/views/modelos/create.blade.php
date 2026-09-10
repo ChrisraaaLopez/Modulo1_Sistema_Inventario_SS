@@ -45,11 +45,6 @@
         </select>
     </div>
 
-    <div class="mb-3">
-        <label class="form-label">Imagen de referencia (opcional):</label>
-        <input type="file" name="imagen" class="form-control" accept="image/*">
-    </div>
-
     <button type="submit" class="btn btn-primary">Guardar</button>
     <a href="{{ route('modelos.index') }}" class="btn btn-secondary">Cancelar</a>
 </form>

@@ -14,6 +14,8 @@ return new class extends Migration
             $table->foreignId('FkId_Categoria')
                 ->constrained('categorias', 'Id_Categoria')
                 ->cascadeOnDelete()->cascadeOnUpdate();
+            $table->enum('Estatus', ['Activo', 'Inactivo'])->default('Activo');
+            $table->enum('status', ['activo', 'inactivo'])->default('activo');
         });
     }
 

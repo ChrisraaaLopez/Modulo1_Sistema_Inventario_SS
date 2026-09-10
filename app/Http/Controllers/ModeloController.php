@@ -11,7 +11,11 @@ class ModeloController extends Controller
 {
     public function index()
     {
-        $modelos = Modelo::with(['marca', 'tipo'])->where('Estatus', 'Activo')->orderBy('Nombre')->paginate(15);
+        $modelos = Modelo::with(['marca', 'tipo'])->where(function ($query) {
+            $query->where('status', 'activo')->orWhere(function ($nestedQuery) {
+                $nestedQuery->whereNull('status')->where('Estatus', 'Activo');
+            });
+        })->orderBy('Nombre')->paginate(15);
         return view('modelos.index', compact('modelos'));
     }
 
@@ -32,6 +36,8 @@ class ModeloController extends Controller
         ]);
 
         $data = $request->only('Nombre', 'FkId_Marca', 'FkId_Tipo');
+        $data['Estatus'] = 'Activo';
+        $data['status'] = 'activo';
 
         if ($request->hasFile('imagen')) {
             $data['URL_Imagen'] = $request->file('imagen')->store('modelos', 'public');
@@ -59,6 +65,8 @@ class ModeloController extends Controller
         ]);
 
         $data = $request->only('Nombre', 'FkId_Marca', 'FkId_Tipo');
+        $data['Estatus'] = 'Activo';
+        $data['status'] = 'activo';
 
         if ($request->hasFile('imagen')) {
             $data['URL_Imagen'] = $request->file('imagen')->store('modelos', 'public');
@@ -71,13 +79,17 @@ class ModeloController extends Controller
 
     public function destroy(Modelo $modelo)
     {
-        $modelo->update(['Estatus' => 'Inactivo']);
+        $modelo->update(['Estatus' => 'Inactivo', 'status' => 'inactivo']);
         return redirect()->route('modelos.index')->with('ok', 'Modelo dado de baja correctamente');
     }
 
     // RF-04: filtro dependiente marca -> modelo, usado por el formulario de Artículos más adelante
     public function porMarca(Marca $marca)
     {
-        return $marca->modelos()->where('Estatus', 'Activo')->select('Id_Modelo', 'Nombre')->orderBy('Nombre')->get();
+        return $marca->modelos()->where(function ($query) {
+            $query->where('status', 'activo')->orWhere(function ($nestedQuery) {
+                $nestedQuery->whereNull('status')->where('Estatus', 'Activo');
+            });
+        })->select('Id_Modelo', 'Nombre')->orderBy('Nombre')->get();
     }
 }

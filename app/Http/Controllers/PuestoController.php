@@ -9,7 +9,11 @@ class PuestoController extends Controller
 {
     public function index()
     {
-        $puestos = Puesto::where('Estatus', 'Activo')->orderBy('Nombre')->paginate(15);
+        $puestos = Puesto::where(function ($query) {
+            $query->where('status', 'activo')->orWhere(function ($nestedQuery) {
+                $nestedQuery->whereNull('status')->where('Estatus', 'Activo');
+            });
+        })->orderBy('Nombre')->paginate(15);
         return view('puestos.index', compact('puestos'));
     }
 
@@ -25,7 +29,10 @@ class PuestoController extends Controller
             'Estatus' => 'required|in:Activo,Inactivo',
         ]);
 
-        Puesto::create($request->only('Nombre', 'Estatus'));
+        $data = $request->only('Nombre', 'Estatus');
+        $data['status'] = strtolower($data['Estatus']);
+
+        Puesto::create($data);
 
         return redirect()->route('puestos.index')->with('ok', 'Puesto registrado correctamente');
     }
@@ -42,14 +49,17 @@ class PuestoController extends Controller
             'Estatus' => 'required|in:Activo,Inactivo',
         ]);
 
-        $puesto->update($request->only('Nombre', 'Estatus'));
+        $data = $request->only('Nombre', 'Estatus');
+        $data['status'] = strtolower($data['Estatus']);
+
+        $puesto->update($data);
 
         return redirect()->route('puestos.index')->with('ok', 'Puesto actualizado correctamente');
     }
 
     public function destroy(Puesto $puesto)
     {
-        $puesto->update(['Estatus' => 'Inactivo']);
+        $puesto->update(['Estatus' => 'Inactivo', 'status' => 'inactivo']);
         return redirect()->route('puestos.index')->with('ok', 'Puesto dado de baja correctamente');
     }
 }

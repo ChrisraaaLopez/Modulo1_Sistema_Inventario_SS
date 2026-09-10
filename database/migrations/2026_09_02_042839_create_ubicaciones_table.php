@@ -13,6 +13,8 @@ return new class extends Migration
             $table->string('Nombre', 100);
             $table->string('Edificio', 10);
             $table->string('Planta', 10);
+            $table->enum('Estatus', ['Activo', 'Inactivo'])->default('Activo');
+            $table->enum('status', ['activo', 'inactivo'])->default('activo');
         });
     }
 

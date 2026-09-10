@@ -19,18 +19,34 @@ return new class extends Migration
         ];
 
         foreach ($tables as $table => $afterColumn) {
-            Schema::table($table, function (Blueprint $tableBlueprint) use ($afterColumn) {
-                $tableBlueprint->string('Estatus', 20)->default('Activo')->after($afterColumn);
-            });
+            if (! Schema::hasColumn($table, 'Estatus')) {
+                Schema::table($table, function (Blueprint $tableBlueprint) use ($afterColumn) {
+                    $tableBlueprint->string('Estatus', 20)->default('Activo')->after($afterColumn);
+                });
+            }
+
+            if (! Schema::hasColumn($table, 'status')) {
+                Schema::table($table, function (Blueprint $tableBlueprint) use ($afterColumn) {
+                    $tableBlueprint->enum('status', ['activo', 'inactivo'])->default('activo')->after($afterColumn);
+                });
+            }
         }
     }
 
     public function down(): void
     {
         foreach (['areas', 'categorias', 'marcas', 'modelos', 'puestos', 'tipos', 'ubicaciones'] as $table) {
-            Schema::table($table, function (Blueprint $tableBlueprint) {
-                $tableBlueprint->dropColumn('Estatus');
-            });
+            if (Schema::hasColumn($table, 'status')) {
+                Schema::table($table, function (Blueprint $tableBlueprint) {
+                    $tableBlueprint->dropColumn('status');
+                });
+            }
+
+            if (Schema::hasColumn($table, 'Estatus')) {
+                Schema::table($table, function (Blueprint $tableBlueprint) {
+                    $tableBlueprint->dropColumn('Estatus');
+                });
+            }
         }
     }
 };

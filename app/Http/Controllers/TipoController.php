@@ -10,7 +10,11 @@ class TipoController extends Controller
 {
     public function index()
     {
-        $tipos = Tipo::with('categoria')->where('Estatus', 'Activo')->orderBy('Nombre')->paginate(15);
+        $tipos = Tipo::with('categoria')->where(function ($query) {
+            $query->where('status', 'activo')->orWhere(function ($nestedQuery) {
+                $nestedQuery->whereNull('status')->where('Estatus', 'Activo');
+            });
+        })->orderBy('Nombre')->paginate(15);
         return view('tipos.index', compact('tipos'));
     }
 
@@ -28,7 +32,10 @@ class TipoController extends Controller
             'Estatus' => 'required|in:Activo,Inactivo',
         ]);
 
-        Tipo::create($request->only('Nombre', 'FkId_Categoria', 'Estatus'));
+        $data = $request->only('Nombre', 'FkId_Categoria', 'Estatus');
+        $data['status'] = strtolower($data['Estatus']);
+
+        Tipo::create($data);
 
         return redirect()->route('tipos.index')->with('ok', 'Tipo registrado correctamente');
     }
@@ -47,14 +54,17 @@ class TipoController extends Controller
             'Estatus' => 'required|in:Activo,Inactivo',
         ]);
 
-        $tipo->update($request->only('Nombre', 'FkId_Categoria', 'Estatus'));
+        $data = $request->only('Nombre', 'FkId_Categoria', 'Estatus');
+        $data['status'] = strtolower($data['Estatus']);
+
+        $tipo->update($data);
 
         return redirect()->route('tipos.index')->with('ok', 'Tipo actualizado correctamente');
     }
 
     public function destroy(Tipo $tipo)
     {
-        $tipo->update(['Estatus' => 'Inactivo']);
+        $tipo->update(['Estatus' => 'Inactivo', 'status' => 'inactivo']);
         return redirect()->route('tipos.index')->with('ok', 'Tipo dado de baja correctamente');
     }
 }

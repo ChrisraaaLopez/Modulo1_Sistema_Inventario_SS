@@ -39,6 +39,8 @@ return new class extends Migration
             $table->string('URL_Imagen', 255)->nullable();
             $table->enum('Estado', ['Bien', 'Reparacion', 'Dañado', 'Obsoleto'])->default('Bien');
             $table->enum('Tipo_Articulo', ['Capitalizable', 'No Capitalizable', 'Consumible', 'En Proceso de Baja', 'Baja']);
+            $table->enum('status', ['activo', 'inactivo'])->default('activo');
+            $table->enum('Estatus', ['Activo', 'Inactivo'])->default('Activo');
             $table->boolean('Revisado')->default(false);
             $table->timestamp('Fecha_Creacion')->useCurrent();
             $table->timestamp('Fecha_Actualizacion')->nullable()->useCurrentOnUpdate();
