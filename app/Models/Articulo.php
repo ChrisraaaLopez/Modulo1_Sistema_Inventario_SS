@@ -13,7 +13,7 @@ class Articulo extends Model
     protected $fillable = [
         'Descripcion', 'FkId_Marca', 'FkId_Modelo', 'N_Serie', 'Color',
         'FkId_Categoria', 'FkId_Tipo', 'FkId_Ubicacion', 'FkId_Empleado',
-        'FkId_Factura', 'Notas', 'Comentarios', 'Estado', 'Tipo_Articulo',
+        'FkId_Factura', 'Notas', 'Comentarios', 'Estado', 'Tipo_Articulo', 'URL_Imagen',
     ];
 
     public function marca()      { return $this->belongsTo(Marca::class, 'FkId_Marca'); }

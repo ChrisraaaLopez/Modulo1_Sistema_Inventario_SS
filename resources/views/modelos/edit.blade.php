@@ -36,6 +36,15 @@
         </select>
     </div>
 
+    <div class="mb-3">
+        <label class="form-label">Estatus:</label>
+        <select name="Estatus" class="form-select" required>
+            @foreach(['Activo', 'Inactivo'] as $opcion)
+                <option value="{{ $opcion }}" {{ old('Estatus', $modelo->Estatus) == $opcion ? 'selected' : '' }}>{{ $opcion }}</option>
+            @endforeach
+        </select>
+    </div>
+
     @if($modelo->URL_Imagen)
         <div class="mb-3">
             <label class="form-label d-block">Imagen actual:</label>

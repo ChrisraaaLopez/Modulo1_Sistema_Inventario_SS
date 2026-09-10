@@ -55,13 +55,20 @@ class ArticuloController extends Controller
             'Comentarios' => 'nullable|string|max:200',
             'Estado' => 'required|in:Bien,Reparacion,Dañado,Obsoleto',
             'Tipo_Articulo' => 'required|in:Capitalizable,No Capitalizable,Consumible,En Proceso de Baja,Baja',
+            'imagen' => 'nullable|image|max:2048',
         ]);
 
-        Articulo::create($request->only(
+        $data = $request->only(
             'Descripcion', 'FkId_Marca', 'FkId_Modelo', 'N_Serie', 'Color',
             'FkId_Categoria', 'FkId_Tipo', 'FkId_Ubicacion', 'FkId_Empleado',
             'FkId_Factura', 'Notas', 'Comentarios', 'Estado', 'Tipo_Articulo'
-        ));
+        );
+
+        if ($request->hasFile('imagen')) {
+            $data['URL_Imagen'] = $request->file('imagen')->store('articulos', 'public');
+        }
+
+        Articulo::create($data);
 
         return redirect()->route('articulos.index')->with('ok', 'Artículo registrado correctamente');
     }
@@ -94,13 +101,20 @@ class ArticuloController extends Controller
             'Comentarios' => 'nullable|string|max:200',
             'Estado' => 'required|in:Bien,Reparacion,Dañado,Obsoleto',
             'Tipo_Articulo' => 'required|in:Capitalizable,No Capitalizable,Consumible,En Proceso de Baja,Baja',
+            'imagen' => 'nullable|image|max:2048',
         ]);
 
-        $articulo->update($request->only(
+        $data = $request->only(
             'Descripcion', 'FkId_Marca', 'FkId_Modelo', 'N_Serie', 'Color',
             'FkId_Categoria', 'FkId_Tipo', 'FkId_Ubicacion', 'FkId_Empleado',
             'FkId_Factura', 'Notas', 'Comentarios', 'Estado', 'Tipo_Articulo'
-        ));
+        );
+
+        if ($request->hasFile('imagen')) {
+            $data['URL_Imagen'] = $request->file('imagen')->store('articulos', 'public');
+        }
+
+        $articulo->update($data);
 
         return redirect()->route('articulos.index')->with('ok', 'Artículo actualizado correctamente');
     }

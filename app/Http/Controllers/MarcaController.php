@@ -9,7 +9,7 @@ class MarcaController extends Controller
 {
     public function index()
     {
-        $marcas = Marca::orderBy('Nombre')->paginate(15);
+        $marcas = Marca::where('Estatus', 'Activo')->orderBy('Nombre')->paginate(15);
         return view('marcas.index', compact('marcas'));
     }
 
@@ -22,9 +22,10 @@ class MarcaController extends Controller
     {
         $request->validate([
             'Nombre' => 'required|string|max:100',
+            'Estatus' => 'required|in:Activo,Inactivo',
         ]);
 
-        Marca::create($request->only('Nombre'));
+        Marca::create($request->only('Nombre', 'Estatus'));
 
         return redirect()->route('marcas.index')->with('ok', 'Marca registrada correctamente');
     }
@@ -38,16 +39,17 @@ class MarcaController extends Controller
     {
         $request->validate([
             'Nombre' => 'required|string|max:100',
+            'Estatus' => 'required|in:Activo,Inactivo',
         ]);
 
-        $marca->update($request->only('Nombre'));
+        $marca->update($request->only('Nombre', 'Estatus'));
 
         return redirect()->route('marcas.index')->with('ok', 'Marca actualizada correctamente');
     }
 
     public function destroy(Marca $marca)
     {
-        $marca->delete();
-        return redirect()->route('marcas.index')->with('ok', 'Marca eliminada');
+        $marca->update(['Estatus' => 'Inactivo']);
+        return redirect()->route('marcas.index')->with('ok', 'Marca dada de baja correctamente');
     }
 }

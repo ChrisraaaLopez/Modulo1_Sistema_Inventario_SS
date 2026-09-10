@@ -10,7 +10,7 @@ class Ubicacion extends Model
     protected $primaryKey = 'Id_Ubicacion';
     public $timestamps = false;
 
-    protected $fillable = ['Nombre', 'Edificio', 'Planta'];
+    protected $fillable = ['Nombre', 'Edificio', 'Planta', 'Estatus'];
 
     public function articulos()
     {

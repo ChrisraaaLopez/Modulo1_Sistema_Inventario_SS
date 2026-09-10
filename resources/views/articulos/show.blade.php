@@ -5,6 +5,12 @@
 @section('content')
 <h1>{{ $articulo->Descripcion }}</h1>
 
+@if($articulo->URL_Imagen)
+    <div class="mb-4">
+        <img src="{{ Storage::url($articulo->URL_Imagen) }}" alt="Imagen del artículo" class="img-fluid rounded border" style="max-width: 320px;">
+    </div>
+@endif
+
 <table class="table table-bordered w-auto">
     <tr><th>Marca / Modelo</th><td>{{ $articulo->marca->Nombre }} / {{ $articulo->modelo->Nombre }}</td></tr>
     <tr><th>N° de serie</th><td>{{ $articulo->N_Serie ?? '—' }}</td></tr>

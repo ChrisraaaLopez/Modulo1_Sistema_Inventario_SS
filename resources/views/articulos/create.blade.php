@@ -5,7 +5,7 @@
 @section('content')
 <h1>Nuevo artículo</h1>
 
-<form action="{{ route('articulos.store') }}" method="POST" class="mt-3">
+<form action="{{ route('articulos.store') }}" method="POST" class="mt-3" enctype="multipart/form-data">
     @csrf
 
     <div class="mb-3">
@@ -122,6 +122,11 @@
     <div class="mb-3">
         <label class="form-label">Comentarios:</label>
         <input type="text" name="Comentarios" value="{{ old('Comentarios') }}" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Imagen del artículo (opcional):</label>
+        <input type="file" name="imagen" class="form-control" accept="image/*">
     </div>
 
     <button type="submit" class="btn btn-primary">Guardar</button>

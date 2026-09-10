@@ -10,7 +10,7 @@ class Modelo extends Model
     protected $primaryKey = 'Id_Modelo';
     public $timestamps = false;
 
-    protected $fillable = ['Nombre', 'FkId_Marca', 'FkId_Tipo', 'URL_Imagen'];
+    protected $fillable = ['Nombre', 'FkId_Marca', 'FkId_Tipo', 'URL_Imagen', 'Estatus'];
 
     public function marca()
     {

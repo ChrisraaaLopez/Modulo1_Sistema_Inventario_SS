@@ -10,7 +10,7 @@ class Puesto extends Model
     protected $primaryKey = 'Id_Puesto';
     public $timestamps = false;
 
-    protected $fillable = ['Nombre'];
+    protected $fillable = ['Nombre', 'Estatus'];
 
     public function empleados()
     {

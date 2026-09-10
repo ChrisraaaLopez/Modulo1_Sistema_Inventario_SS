@@ -3,40 +3,65 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<h1>Panel de control</h1>
+<div class="page-shell">
+    <div class="page-header">
+        <h1>Dashboard</h1>
+        <div class="date-pill">Thursday, 10 de Septiembre de 2026</div>
+    </div>
 
-<div class="row mt-4">
-    <div class="col-md-3">
-        <div class="card text-bg-primary">
-            <div class="card-body">
-                <h5 class="card-title">Artículos</h5>
-                <p class="card-text fs-2">{{ $totales['articulos'] }}</p>
+    <div class="panel-grid">
+        <div class="metric-card primary">
+            <div class="metric-body">
+                <div class="metric-label">Total de artículos</div>
+                <div class="metric-value">{{ $totales['articulos'] }}</div>
+                <div class="metric-note">en el inventario</div>
+            </div>
+        </div>
+
+        <div class="metric-card success">
+            <div class="metric-body">
+                <div class="metric-label">En buen estado</div>
+                <div class="metric-value">{{ $totales['empleados'] }}</div>
+                <div class="metric-note">estado "Bien"</div>
+            </div>
+        </div>
+
+        <div class="metric-card danger">
+            <div class="metric-body">
+                <div class="metric-label">Dados / obsoletos</div>
+                <div class="metric-value">0</div>
+                <div class="metric-note">requieren atención</div>
+            </div>
+        </div>
+
+        <div class="metric-card primary">
+            <div class="metric-body">
+                <div class="metric-label">Empleados activos</div>
+                <div class="metric-value">{{ $totales['empleados'] }}</div>
+                <div class="metric-note">con artículos asignables</div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card text-bg-success">
-            <div class="card-body">
-                <h5 class="card-title">Empleados</h5>
-                <p class="card-text fs-2">{{ $totales['empleados'] }}</p>
+
+    <div class="dashboard-row" style="grid-template-columns: 1fr;">
+        <div class="mini-panel">
+            <h3>Artículos por categoría</h3>
+            <p class="muted-empty">Aún no hay artículos registrados.</p>
+        </div>
+
+        <div class="mini-panel">
+            <h3>Periodo activo</h3>
+            <p class="muted-empty">No hay un periodo de revisión abierto.</p>
+            <div class="action-row">
+                <button type="button" class="btn btn-primary">Crear periodo</button>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card text-bg-warning">
-            <div class="card-body">
-                <h5 class="card-title">Marcas</h5>
-                <p class="card-text fs-2">{{ $totales['marcas'] }}</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card text-bg-secondary">
-            <div class="card-body">
-                <h5 class="card-title">Facturas</h5>
-                <p class="card-text fs-2">{{ $totales['facturas'] }}</p>
-            </div>
-        </div>
+
+    <div class="action-row" style="margin-top: 6px;">
+        <button type="button" class="btn btn-primary">+ Nuevo artículo</button>
+        <button type="button" class="btn btn-primary">+ Nuevo empleado</button>
+        <button type="button" class="btn btn-secondary">Ir a escanear</button>
     </div>
 </div>
 @endsection

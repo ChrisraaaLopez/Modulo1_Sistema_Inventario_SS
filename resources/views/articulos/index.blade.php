@@ -52,6 +52,7 @@
 
 <table class="table table-bordered table-striped align-middle">
     <tr>
+        <th>Imagen</th>
         <th>Descripción</th>
         <th>Marca / Modelo</th>
         <th>Categoría</th>
@@ -62,6 +63,13 @@
     </tr>
     @foreach($articulos as $articulo)
     <tr>
+        <td>
+            @if($articulo->URL_Imagen)
+                <img src="{{ Storage::url($articulo->URL_Imagen) }}" alt="{{ $articulo->Descripcion }}" style="width: 52px; height: 52px; object-fit: cover; border-radius: 10px; border: 1px solid #dfe5ef;">
+            @else
+                <div style="width: 52px; height: 52px; border-radius: 10px; background: #edf2fb; display: flex; align-items: center; justify-content: center; color: #6b7280; font-size: 11px;">Sin img</div>
+            @endif
+        </td>
         <td>{{ $articulo->Descripcion }}</td>
         <td>{{ $articulo->marca->Nombre }} / {{ $articulo->modelo->Nombre }}</td>
         <td>{{ $articulo->categoria->Nombre }}</td>

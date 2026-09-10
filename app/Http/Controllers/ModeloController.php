@@ -11,7 +11,7 @@ class ModeloController extends Controller
 {
     public function index()
     {
-        $modelos = Modelo::with(['marca', 'tipo'])->orderBy('Nombre')->paginate(15);
+        $modelos = Modelo::with(['marca', 'tipo'])->where('Estatus', 'Activo')->orderBy('Nombre')->paginate(15);
         return view('modelos.index', compact('modelos'));
     }
 
@@ -71,13 +71,13 @@ class ModeloController extends Controller
 
     public function destroy(Modelo $modelo)
     {
-        $modelo->delete();
-        return redirect()->route('modelos.index')->with('ok', 'Modelo eliminado');
+        $modelo->update(['Estatus' => 'Inactivo']);
+        return redirect()->route('modelos.index')->with('ok', 'Modelo dado de baja correctamente');
     }
 
     // RF-04: filtro dependiente marca -> modelo, usado por el formulario de Artículos más adelante
     public function porMarca(Marca $marca)
     {
-        return $marca->modelos()->select('Id_Modelo', 'Nombre')->orderBy('Nombre')->get();
+        return $marca->modelos()->where('Estatus', 'Activo')->select('Id_Modelo', 'Nombre')->orderBy('Nombre')->get();
     }
 }

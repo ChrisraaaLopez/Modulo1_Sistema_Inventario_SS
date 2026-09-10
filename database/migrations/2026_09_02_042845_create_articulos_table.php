@@ -36,6 +36,7 @@ return new class extends Migration
                 ->nullOnDelete()->cascadeOnUpdate();
             $table->string('Notas', 200)->nullable();
             $table->string('Comentarios', 200)->nullable();
+            $table->string('URL_Imagen', 255)->nullable();
             $table->enum('Estado', ['Bien', 'Reparacion', 'Dañado', 'Obsoleto'])->default('Bien');
             $table->enum('Tipo_Articulo', ['Capitalizable', 'No Capitalizable', 'Consumible', 'En Proceso de Baja', 'Baja']);
             $table->boolean('Revisado')->default(false);

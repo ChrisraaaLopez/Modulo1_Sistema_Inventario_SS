@@ -5,7 +5,7 @@
 @section('content')
 <h1>Editar artículo</h1>
 
-<form action="{{ route('articulos.update', $articulo) }}" method="POST" class="mt-3">
+<form action="{{ route('articulos.update', $articulo) }}" method="POST" class="mt-3" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -123,6 +123,18 @@
     <div class="mb-3">
         <label class="form-label">Comentarios:</label>
         <input type="text" name="Comentarios" value="{{ old('Comentarios', $articulo->Comentarios) }}" class="form-control">
+    </div>
+
+    @if($articulo->URL_Imagen)
+        <div class="mb-3">
+            <label class="form-label d-block">Imagen actual:</label>
+            <img src="{{ Storage::url($articulo->URL_Imagen) }}" width="140" class="img-thumbnail">
+        </div>
+    @endif
+
+    <div class="mb-3">
+        <label class="form-label">Cambiar imagen (opcional):</label>
+        <input type="file" name="imagen" class="form-control" accept="image/*">
     </div>
 
     <button type="submit" class="btn btn-primary">Actualizar</button>

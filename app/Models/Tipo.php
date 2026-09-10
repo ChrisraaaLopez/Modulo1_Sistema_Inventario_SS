@@ -10,7 +10,7 @@ class Tipo extends Model
     protected $primaryKey = 'Id_Tipo';
     public $timestamps = false;
 
-    protected $fillable = ['Nombre', 'FkId_Categoria'];
+    protected $fillable = ['Nombre', 'FkId_Categoria', 'Estatus'];
 
     public function categoria()
     {

@@ -19,6 +19,13 @@
         <label class="form-label">Planta:</label>
         <input type="text" name="Planta" value="{{ old('Planta') }}" class="form-control" required placeholder="Ej. 2">
     </div>
+    <div class="mb-3">
+        <label class="form-label">Estatus:</label>
+        <select name="Estatus" class="form-select" required>
+            <option value="Activo" {{ old('Estatus') == 'Activo' ? 'selected' : '' }}>Activo</option>
+            <option value="Inactivo" {{ old('Estatus') == 'Inactivo' ? 'selected' : '' }}>Inactivo</option>
+        </select>
+    </div>
     <button type="submit" class="btn btn-primary">Guardar</button>
     <a href="{{ route('ubicaciones.index') }}" class="btn btn-secondary">Cancelar</a>
 </form>

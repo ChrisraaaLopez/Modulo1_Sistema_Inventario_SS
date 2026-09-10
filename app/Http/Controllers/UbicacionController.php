@@ -9,7 +9,7 @@ class UbicacionController extends Controller
 {
     public function index()
     {
-        $ubicaciones = Ubicacion::orderBy('Edificio')->orderBy('Nombre')->paginate(15);
+        $ubicaciones = Ubicacion::where('Estatus', 'Activo')->orderBy('Edificio')->orderBy('Nombre')->paginate(15);
         return view('ubicaciones.index', compact('ubicaciones'));
     }
 
@@ -24,9 +24,10 @@ class UbicacionController extends Controller
             'Nombre' => 'required|string|max:100',
             'Edificio' => 'required|string|max:10',
             'Planta' => 'required|string|max:10',
+            'Estatus' => 'required|in:Activo,Inactivo',
         ]);
 
-        Ubicacion::create($request->only('Nombre', 'Edificio', 'Planta'));
+        Ubicacion::create($request->only('Nombre', 'Edificio', 'Planta', 'Estatus'));
 
         return redirect()->route('ubicaciones.index')->with('ok', 'Ubicación registrada correctamente');
     }
@@ -42,16 +43,17 @@ class UbicacionController extends Controller
             'Nombre' => 'required|string|max:100',
             'Edificio' => 'required|string|max:10',
             'Planta' => 'required|string|max:10',
+            'Estatus' => 'required|in:Activo,Inactivo',
         ]);
 
-        $ubicacion->update($request->only('Nombre', 'Edificio', 'Planta'));
+        $ubicacion->update($request->only('Nombre', 'Edificio', 'Planta', 'Estatus'));
 
         return redirect()->route('ubicaciones.index')->with('ok', 'Ubicación actualizada correctamente');
     }
 
     public function destroy(Ubicacion $ubicacion)
     {
-        $ubicacion->delete();
-        return redirect()->route('ubicaciones.index')->with('ok', 'Ubicación eliminada');
+        $ubicacion->update(['Estatus' => 'Inactivo']);
+        return redirect()->route('ubicaciones.index')->with('ok', 'Ubicación dada de baja correctamente');
     }
 }

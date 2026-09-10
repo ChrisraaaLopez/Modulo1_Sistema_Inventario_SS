@@ -10,7 +10,7 @@ class TipoController extends Controller
 {
     public function index()
     {
-        $tipos = Tipo::with('categoria')->orderBy('Nombre')->paginate(15);
+        $tipos = Tipo::with('categoria')->where('Estatus', 'Activo')->orderBy('Nombre')->paginate(15);
         return view('tipos.index', compact('tipos'));
     }
 
@@ -25,9 +25,10 @@ class TipoController extends Controller
         $request->validate([
             'Nombre' => 'required|string|max:200',
             'FkId_Categoria' => 'required|exists:categorias,Id_Categoria',
+            'Estatus' => 'required|in:Activo,Inactivo',
         ]);
 
-        Tipo::create($request->only('Nombre', 'FkId_Categoria'));
+        Tipo::create($request->only('Nombre', 'FkId_Categoria', 'Estatus'));
 
         return redirect()->route('tipos.index')->with('ok', 'Tipo registrado correctamente');
     }
@@ -43,16 +44,17 @@ class TipoController extends Controller
         $request->validate([
             'Nombre' => 'required|string|max:200',
             'FkId_Categoria' => 'required|exists:categorias,Id_Categoria',
+            'Estatus' => 'required|in:Activo,Inactivo',
         ]);
 
-        $tipo->update($request->only('Nombre', 'FkId_Categoria'));
+        $tipo->update($request->only('Nombre', 'FkId_Categoria', 'Estatus'));
 
         return redirect()->route('tipos.index')->with('ok', 'Tipo actualizado correctamente');
     }
 
     public function destroy(Tipo $tipo)
     {
-        $tipo->delete();
-        return redirect()->route('tipos.index')->with('ok', 'Tipo eliminado');
+        $tipo->update(['Estatus' => 'Inactivo']);
+        return redirect()->route('tipos.index')->with('ok', 'Tipo dado de baja correctamente');
     }
 }

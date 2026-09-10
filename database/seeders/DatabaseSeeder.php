@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
             RolesSeeder::class,
             AreasSeeder::class,
             CategoriasSeeder::class,
+            DemoModulo1Seeder::class,
         ]);
     }
 }

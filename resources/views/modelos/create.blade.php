@@ -38,6 +38,14 @@
     </div>
 
     <div class="mb-3">
+        <label class="form-label">Estatus:</label>
+        <select name="Estatus" class="form-select" required>
+            <option value="Activo" {{ old('Estatus') == 'Activo' ? 'selected' : '' }}>Activo</option>
+            <option value="Inactivo" {{ old('Estatus') == 'Inactivo' ? 'selected' : '' }}>Inactivo</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
         <label class="form-label">Imagen de referencia (opcional):</label>
         <input type="file" name="imagen" class="form-control" accept="image/*">
     </div>

@@ -11,7 +11,7 @@ class EmpleadoController extends Controller
 {
     public function index()
     {
-        $empleados = Empleado::with(['puesto', 'area'])->orderBy('Nombre')->paginate(15);
+        $empleados = Empleado::with(['puesto', 'area'])->where('Estatus', 'Activo')->orderBy('Nombre')->paginate(15);
         return view('empleados.index', compact('empleados'));
     }
 
@@ -71,7 +71,7 @@ class EmpleadoController extends Controller
 
     public function destroy(Empleado $empleado)
     {
-        $empleado->delete();
-        return redirect()->route('empleados.index')->with('ok', 'Empleado eliminado');
+        $empleado->update(['Estatus' => 'Inactivo']);
+        return redirect()->route('empleados.index')->with('ok', 'Empleado dado de baja correctamente');
     }
 }
