@@ -56,3 +56,26 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Configuración local rápida
+
+Este proyecto incluye `database/database.sqlite` y un `.env` local para evitar el error de "Database file ... does not exist" al iniciar una instalación nueva.
+
+Si acabas de clonar/descomprimir el proyecto y todavía no tienes dependencias:
+
+```powershell
+composer install
+php artisan migrate --seed
+npm install
+npm run build
+php artisan serve
+```
+
+Si Laravel ya está instalado, puedes ejecutar únicamente:
+
+```powershell
+php artisan migrate --seed
+php artisan serve
+```
+
+La configuración local usa SQLite en `database/database.sqlite`, sesiones en archivos y caché en archivos, por lo que no necesitas configurar MySQL para arrancar este proyecto.

@@ -3,10 +3,12 @@
 @section('title', 'Tipos')
 
 @section('content')
-<h1>Tipos</h1>
-
+<div class="page-header"><div><h1>Tipos</h1></div><div>
 <a href="{{ route('tipos.create') }}" class="btn btn-primary mb-3">+ Nuevo tipo</a>
 
+</div></div>
+
+<div class="table-wrap">
 <table class="table table-bordered table-striped">
     <tr>
         <th>Nombre</th>
@@ -28,6 +30,7 @@
     </tr>
     @endforeach
 </table>
+</div>
 
 {{ $tipos->links() }}
 @endsection

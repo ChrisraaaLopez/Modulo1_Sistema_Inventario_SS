@@ -3,10 +3,12 @@
 @section('title', 'Facturas')
 
 @section('content')
-<h1>Facturas</h1>
-
+<div class="page-header"><div><h1>Facturas</h1></div><div>
 <a href="{{ route('facturas.create') }}" class="btn btn-primary mb-3">+ Nueva factura</a>
 
+</div></div>
+
+<div class="table-wrap">
 <table class="table table-bordered table-striped align-middle">
     <tr>
         <th>Folio</th>
@@ -40,6 +42,7 @@
     </tr>
     @endforeach
 </table>
+</div>
 
 {{ $facturas->links() }}
 @endsection

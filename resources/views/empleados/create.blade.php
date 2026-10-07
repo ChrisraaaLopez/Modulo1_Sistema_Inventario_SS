@@ -3,9 +3,9 @@
 @section('title', 'Nuevo empleado')
 
 @section('content')
-<h1>Nuevo empleado</h1>
+<div class="page-header"><h1>Nuevo empleado</h1></div>
 
-<form action="{{ route('empleados.store') }}" method="POST" class="mt-3">
+<div class="card-form"><form action="{{ route('empleados.store') }}" method="POST" class="mt-3">
     @csrf
 
     <div class="mb-3">
@@ -63,5 +63,5 @@
 
     <button type="submit" class="btn btn-primary">Guardar</button>
     <a href="{{ route('empleados.index') }}" class="btn btn-secondary">Cancelar</a>
-</form>
+</form></div>
 @endsection

@@ -3,9 +3,9 @@
 @section('title', 'Editar modelo')
 
 @section('content')
-<h1>Editar modelo</h1>
+<div class="page-header"><h1>Editar modelo</h1></div>
 
-<form action="{{ route('modelos.update', $modelo) }}" method="POST" enctype="multipart/form-data" class="mt-3">
+<div class="card-form"><form action="{{ route('modelos.update', $modelo) }}" method="POST" enctype="multipart/form-data" class="mt-3">
     @csrf
     @method('PUT')
 
@@ -47,5 +47,5 @@
 
     <button type="submit" class="btn btn-primary">Actualizar</button>
     <a href="{{ route('modelos.index') }}" class="btn btn-secondary">Cancelar</a>
-</form>
+</form></div>
 @endsection

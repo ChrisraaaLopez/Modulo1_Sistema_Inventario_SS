@@ -3,9 +3,9 @@
 @section('title', 'Editar artículo')
 
 @section('content')
-<h1>Editar artículo</h1>
+<div class="page-header"><h1>Editar artículo</h1></div>
 
-<form action="{{ route('articulos.update', $articulo) }}" method="POST" class="mt-3" enctype="multipart/form-data">
+<div class="card-form"><form action="{{ route('articulos.update', $articulo) }}" method="POST" class="mt-3" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -34,6 +34,7 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <label class="form-label">Número de serie:</label>
+<label>Código de barras / QR<input name="Codigo_Barras" value="{{ old('Codigo_Barras', $articulo->Codigo_Barras ?? '') }}" maxlength="120"></label>
             <input type="text" name="N_Serie" value="{{ old('N_Serie', $articulo->N_Serie) }}" class="form-control">
         </div>
         <div class="col-md-6 mb-3">
@@ -152,7 +153,7 @@
 
     <button type="submit" class="btn btn-primary">Actualizar</button>
     <a href="{{ route('articulos.index') }}" class="btn btn-secondary">Cancelar</a>
-</form>
+</form></div>
 
 <script>
 const inputImagen = document.getElementById('imagenArchivo');

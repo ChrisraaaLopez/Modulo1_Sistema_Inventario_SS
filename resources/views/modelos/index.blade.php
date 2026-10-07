@@ -3,10 +3,12 @@
 @section('title', 'Modelos')
 
 @section('content')
-<h1>Modelos</h1>
-
+<div class="page-header"><div><h1>Modelos</h1></div><div>
 <a href="{{ route('modelos.create') }}" class="btn btn-primary mb-3">+ Nuevo modelo</a>
 
+</div></div>
+
+<div class="table-wrap">
 <table class="table table-bordered table-striped align-middle">
     <tr>
         <th>Imagen</th>
@@ -38,6 +40,7 @@
     </tr>
     @endforeach
 </table>
+</div>
 
 {{ $modelos->links() }}
 @endsection

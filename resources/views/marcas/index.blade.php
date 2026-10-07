@@ -3,10 +3,12 @@
 @section('title', 'Marcas')
 
 @section('content')
-<h1>Marcas</h1>
-
+<div class="page-header"><div><h1>Marcas</h1></div><div>
 <a href="{{ route('marcas.create') }}" class="btn btn-primary mb-3">+ Nueva marca</a>
 
+</div></div>
+
+<div class="table-wrap">
 <table class="table table-bordered table-striped">
     <tr>
         <th>Nombre</th>
@@ -26,6 +28,7 @@
     </tr>
     @endforeach
 </table>
+</div>
 
 {{ $marcas->links() }}
 @endsection

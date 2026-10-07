@@ -3,9 +3,10 @@
 @section('title', 'Artículos')
 
 @section('content')
-<h1>Artículos</h1>
-
+<div class="page-header"><div><h1>Artículos</h1></div><div>
 <a href="{{ route('articulos.create') }}" class="btn btn-primary mb-3">+ Nuevo artículo</a>
+
+</div></div>
 
 <form method="GET" class="row g-2 mb-3">
     <div class="col-md-2">
@@ -50,6 +51,7 @@
     </div>
 </form>
 
+<div class="table-wrap">
 <table class="table table-bordered table-striped align-middle">
     <tr>
         <th>Imagen</th>
@@ -93,6 +95,7 @@
     </tr>
     @endforeach
 </table>
+</div>
 
 {{ $articulos->links() }}
 

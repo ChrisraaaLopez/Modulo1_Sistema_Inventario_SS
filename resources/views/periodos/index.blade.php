@@ -1,0 +1,6 @@
+@extends('layouts.app')
+@section('content')
+<div class="page"><div class="page-head"><div><span class="eyebrow">CONTROL DE INVENTARIO</span><h1>Periodos de revisión</h1><p>Administra ciclos de revisión y resguardos por ubicación.</p></div><a class="btn primary" href="{{route('revision.periodos.create')}}">+ Nuevo periodo</a></div>
+@if(session('ok'))<div class="alert ok">{{session('ok')}}</div>@endif
+<div class="table-card"><table><thead><tr><th>Periodo</th><th>Inicio</th><th>Cierre</th><th>Estado</th><th>Resguardos</th><th></th></tr></thead><tbody>@forelse($periodos as $p)<tr><td><strong>{{$p->Nombre}}</strong></td><td>{{$p->Fecha_Inicio?->format('d/m/Y')}}</td><td>{{$p->Fecha_Cierre?->format('d/m/Y') ?: '—'}}</td><td><span class="badge {{$p->Estado==='Abierto'?'green':'gray'}}">{{$p->Estado}}</span></td><td>{{$p->resguardos_count}}</td><td><a class="btn small" href="{{route('revision.select',$p)}}">Revisar ubicación</a> @if($p->Estado==='Abierto')<form method="POST" action="{{route('revision.period.close',$p)}}" class="inline-form">@csrf<input name="clave" placeholder="Clave" required><button class="btn small danger">Cerrar periodo</button></form>@endif</td></tr>@empty<tr><td colspan="6">No hay periodos.</td></tr>@endforelse</tbody></table></div>{{$periodos->links()}}</div>
+@endsection
