@@ -3,9 +3,9 @@
 @section('title', 'Editar marca')
 
 @section('content')
-<h1>Editar marca</h1>
+<div class="page-header"><h1>Editar marca</h1></div>
 
-<form action="{{ route('marcas.update', $marca) }}" method="POST" class="mt-3">
+<div class="card-form"><form action="{{ route('marcas.update', $marca) }}" method="POST" class="mt-3">
     @csrf
     @method('PUT')
     <div class="mb-3">
@@ -22,5 +22,5 @@
     </div>
     <button type="submit" class="btn btn-primary">Actualizar</button>
     <a href="{{ route('marcas.index') }}" class="btn btn-secondary">Cancelar</a>
-</form>
+</form></div>
 @endsection

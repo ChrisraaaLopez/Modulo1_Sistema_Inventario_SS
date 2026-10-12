@@ -3,9 +3,9 @@
 @section('title', 'Nuevo modelo')
 
 @section('content')
-<h1>Nuevo modelo</h1>
+<div class="page-header"><h1>Nuevo modelo</h1></div>
 
-<form action="{{ route('modelos.store') }}" method="POST" enctype="multipart/form-data" class="mt-3">
+<div class="card-form"><form action="{{ route('modelos.store') }}" method="POST" enctype="multipart/form-data" class="mt-3">
     @csrf
 
     <div class="mb-3">
@@ -47,5 +47,5 @@
 
     <button type="submit" class="btn btn-primary">Guardar</button>
     <a href="{{ route('modelos.index') }}" class="btn btn-secondary">Cancelar</a>
-</form>
+</form></div>
 @endsection

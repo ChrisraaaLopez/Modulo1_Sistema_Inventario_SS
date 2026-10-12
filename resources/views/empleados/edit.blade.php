@@ -3,9 +3,9 @@
 @section('title', 'Editar empleado')
 
 @section('content')
-<h1>Editar empleado</h1>
+<div class="page-header"><h1>Editar empleado</h1></div>
 
-<form action="{{ route('empleados.update', $empleado) }}" method="POST" class="mt-3">
+<div class="card-form"><form action="{{ route('empleados.update', $empleado) }}" method="POST" class="mt-3">
     @csrf
     @method('PUT')
 
@@ -64,5 +64,5 @@
 
     <button type="submit" class="btn btn-primary">Actualizar</button>
     <a href="{{ route('empleados.index') }}" class="btn btn-secondary">Cancelar</a>
-</form>
+</form></div>
 @endsection

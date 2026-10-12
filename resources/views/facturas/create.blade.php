@@ -3,9 +3,9 @@
 @section('title', 'Nueva factura')
 
 @section('content')
-<h1>Nueva factura</h1>
+<div class="page-header"><h1>Nueva factura</h1></div>
 
-<form action="{{ route('facturas.store') }}" method="POST" enctype="multipart/form-data" class="mt-3">
+<div class="card-form"><form action="{{ route('facturas.store') }}" method="POST" enctype="multipart/form-data" class="mt-3">
     @csrf
 
     <div class="mb-3">
@@ -40,5 +40,5 @@
 
     <button type="submit" class="btn btn-primary">Guardar</button>
     <a href="{{ route('facturas.index') }}" class="btn btn-secondary">Cancelar</a>
-</form>
+</form></div>
 @endsection

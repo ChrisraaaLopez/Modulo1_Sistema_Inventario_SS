@@ -4,12 +4,13 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class DemoModulo1Seeder extends Seeder
 {
     public function run(): void
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        Schema::disableForeignKeyConstraints();
 
         DB::table('articulos')->delete();
         DB::table('facturas')->delete();
@@ -22,7 +23,7 @@ class DemoModulo1Seeder extends Seeder
         DB::table('areas')->delete();
         DB::table('categorias')->delete();
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        Schema::enableForeignKeyConstraints();
 
         $areas = [
             ['Id_Area' => 1, 'Nombre' => 'Dirección', 'Estatus' => 'Activo'],
@@ -156,5 +157,6 @@ class DemoModulo1Seeder extends Seeder
             ['Id_Articulo' => 15, 'Descripcion' => 'Herramienta eléctrica portátil', 'FkId_Marca' => 8, 'FkId_Modelo' => 10, 'N_Serie' => 'BS-HT-440', 'Color' => 'Rojo', 'FkId_Categoria' => 5, 'FkId_Tipo' => 9, 'FkId_Ubicacion' => 7, 'FkId_Empleado' => 6, 'FkId_Factura' => 3, 'Notas' => 'Uso técnico', 'Comentarios' => 'Revisar baterías', 'Estado' => 'Obsoleto', 'Tipo_Articulo' => 'Capitalizable', 'Revisado' => false, 'Fecha_Creacion' => now(), 'Fecha_Actualizacion' => now()],
         ];
         DB::table('articulos')->insert($articulos);
+        foreach (range(1, 15) as $id) { DB::table('articulos')->where('Id_Articulo',$id)->update(['Codigo_Barras'=>'INV-'.str_pad((string)$id,5,'0',STR_PAD_LEFT)]); }
     }
 }

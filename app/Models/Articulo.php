@@ -11,7 +11,7 @@ class Articulo extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'Descripcion', 'FkId_Marca', 'FkId_Modelo', 'N_Serie', 'Color',
+        'Descripcion', 'Codigo_Barras', 'FkId_Marca', 'FkId_Modelo', 'N_Serie', 'Color',
         'FkId_Categoria', 'FkId_Tipo', 'FkId_Ubicacion', 'FkId_Empleado',
         'FkId_Factura', 'Notas', 'Comentarios', 'Estado', 'Tipo_Articulo', 'URL_Imagen',
         'status', 'Estatus',

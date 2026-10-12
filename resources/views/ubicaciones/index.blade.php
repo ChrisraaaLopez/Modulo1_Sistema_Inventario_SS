@@ -3,10 +3,12 @@
 @section('title', 'Ubicaciones')
 
 @section('content')
-<h1>Ubicaciones</h1>
-
+<div class="page-header"><div><h1>Ubicaciones</h1></div><div>
 <a href="{{ route('ubicaciones.create') }}" class="btn btn-primary mb-3">+ Nueva ubicación</a>
 
+</div></div>
+
+<div class="table-wrap">
 <table class="table table-bordered table-striped">
     <tr>
         <th>Nombre</th>
@@ -30,6 +32,7 @@
     </tr>
     @endforeach
 </table>
+</div>
 
 {{ $ubicaciones->links() }}
 @endsection

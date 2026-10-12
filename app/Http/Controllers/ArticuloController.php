@@ -49,6 +49,7 @@ class ArticuloController extends Controller
             'Descripcion' => 'required|string|max:200',
             'FkId_Marca' => 'required|exists:marcas,Id_Marca',
             'FkId_Modelo' => 'required|exists:modelos,Id_Modelo',
+            'Codigo_Barras' => 'nullable|string|max:120|unique:articulos,Codigo_Barras,'.($articulo->Id_Articulo ?? 'NULL').',Id_Articulo',
             'N_Serie' => 'nullable|string|max:30',
             'Color' => 'nullable|string|max:100',
             'FkId_Categoria' => 'required|exists:categorias,Id_Categoria',
@@ -64,7 +65,7 @@ class ArticuloController extends Controller
         ]);
 
         $data = $request->only(
-            'Descripcion', 'FkId_Marca', 'FkId_Modelo', 'N_Serie', 'Color',
+            'Descripcion', 'Codigo_Barras', 'FkId_Marca', 'FkId_Modelo', 'N_Serie', 'Color',
             'FkId_Categoria', 'FkId_Tipo', 'FkId_Ubicacion', 'FkId_Empleado',
             'FkId_Factura', 'Notas', 'Comentarios', 'Estado', 'Tipo_Articulo'
         );
@@ -95,6 +96,7 @@ class ArticuloController extends Controller
             'Descripcion' => 'required|string|max:200',
             'FkId_Marca' => 'required|exists:marcas,Id_Marca',
             'FkId_Modelo' => 'required|exists:modelos,Id_Modelo',
+            'Codigo_Barras' => 'nullable|string|max:120|unique:articulos,Codigo_Barras,'. $articulo->Id_Articulo .',Id_Articulo',
             'N_Serie' => 'nullable|string|max:30',
             'Color' => 'nullable|string|max:100',
             'FkId_Categoria' => 'required|exists:categorias,Id_Categoria',
@@ -110,7 +112,7 @@ class ArticuloController extends Controller
         ]);
 
         $data = $request->only(
-            'Descripcion', 'FkId_Marca', 'FkId_Modelo', 'N_Serie', 'Color',
+            'Descripcion', 'Codigo_Barras', 'FkId_Marca', 'FkId_Modelo', 'N_Serie', 'Color',
             'FkId_Categoria', 'FkId_Tipo', 'FkId_Ubicacion', 'FkId_Empleado',
             'FkId_Factura', 'Notas', 'Comentarios', 'Estado', 'Tipo_Articulo'
         );

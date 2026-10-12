@@ -3,10 +3,12 @@
 @section('title', 'Empleados')
 
 @section('content')
-<h1>Empleados</h1>
-
+<div class="page-header"><div><h1>Empleados</h1></div><div>
 <a href="{{ route('empleados.create') }}" class="btn btn-primary mb-3">+ Nuevo empleado</a>
 
+</div></div>
+
+<div class="table-wrap">
 <table class="table table-bordered table-striped">
     <tr>
         <th>N° Trabajador</th>
@@ -38,6 +40,7 @@
     </tr>
     @endforeach
 </table>
+</div>
 
 {{ $empleados->links() }}
 @endsection

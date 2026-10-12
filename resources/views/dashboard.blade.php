@@ -59,9 +59,9 @@
     </div>
 
     <div class="action-row" style="margin-top: 6px;">
-        <button type="button" class="btn btn-primary">+ Nuevo artículo</button>
-        <button type="button" class="btn btn-primary">+ Nuevo empleado</button>
-        <button type="button" class="btn btn-secondary">Ir a escanear</button>
+        <a href="{{ route('articulos.create') }}" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Nuevo artículo</a>
+        <a href="{{ route('empleados.create') }}" class="btn btn-primary"><i class="bi bi-person-plus-fill me-1"></i>Nuevo empleado</a>
+        <a href="{{ route('articulos.index') }}" class="btn btn-secondary"><i class="bi bi-search me-1"></i>Consultar inventario</a>
     </div>
 </div>
 @endsection

@@ -3,9 +3,9 @@
 @section('title', 'Editar tipo')
 
 @section('content')
-<h1>Editar tipo</h1>
+<div class="page-header"><h1>Editar tipo</h1></div>
 
-<form action="{{ route('tipos.update', $tipo) }}" method="POST" class="mt-3">
+<div class="card-form"><form action="{{ route('tipos.update', $tipo) }}" method="POST" class="mt-3">
     @csrf
     @method('PUT')
     <div class="mb-3">
@@ -32,5 +32,5 @@
     </div>
     <button type="submit" class="btn btn-primary">Actualizar</button>
     <a href="{{ route('tipos.index') }}" class="btn btn-secondary">Cancelar</a>
-</form>
+</form></div>
 @endsection

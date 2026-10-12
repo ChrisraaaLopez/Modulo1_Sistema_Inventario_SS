@@ -1,51 +1,7 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\MarcaController;
-use App\Http\Controllers\TipoController;
-use App\Http\Controllers\UbicacionController;
-use App\Http\Controllers\PuestoController;
-use App\Http\Controllers\EmpleadoController;
-use App\Http\Controllers\ModeloController;
-use App\Http\Controllers\FacturaController;
-use App\Http\Controllers\ArticuloController;
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-//Dashboard
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-
-//Ruta de Marcas
-Route::resource('marcas', MarcaController::class)->parameters(['marcas' => 'marca']);
-
-//Ruta de Tipos
-Route::resource('tipos', TipoController::class)->parameters(['tipos' => 'tipo']);
-
-//Ruta de Ubicaciones
-Route::resource('ubicaciones', UbicacionController::class)
-    ->parameters(['ubicaciones' => 'ubicacion']);
-
-//Ruta de Puestos
-Route::resource('puestos', PuestoController::class)
-    ->parameters(['puestos' => 'puesto']);
-
-//Ruta de Empleados
-Route::resource('empleados', EmpleadoController::class)
-    ->parameters(['empleados' => 'empleado']);
-
-//Ruta(s) de Modelo
-Route::resource('modelos', ModeloController::class)
-    ->parameters(['modelos' => 'modelo']);
-
-Route::get('/modelos-por-marca/{marca}', [ModeloController::class, 'porMarca'])->name('modelos.porMarca');
-
-//Rutas de Factura
-Route::resource('facturas', FacturaController::class)
-    ->parameters(['facturas' => 'factura']);
-
-//Rutas de Articulo
-Route::resource('articulos', ArticuloController::class)
-    ->parameters(['articulos' => 'articulo']);
+use App\Http\Controllers\DashboardController; use App\Http\Controllers\ArticuloController; use App\Http\Controllers\EmpleadoController; use App\Http\Controllers\FacturaController; use App\Http\Controllers\MarcaController; use App\Http\Controllers\ModeloController; use App\Http\Controllers\PuestoController; use App\Http\Controllers\TipoController; use App\Http\Controllers\UbicacionController; use App\Http\Controllers\RevisionController;
+Route::get('/',[DashboardController::class,'index'])->name('dashboard');
+Route::resource('articulos',ArticuloController::class); Route::resource('empleados',EmpleadoController::class); Route::resource('facturas',FacturaController::class); Route::resource('marcas',MarcaController::class); Route::resource('modelos',ModeloController::class); Route::resource('puestos',PuestoController::class); Route::resource('tipos',TipoController::class); Route::resource('ubicaciones',UbicacionController::class);
+Route::prefix('revision')->name('revision.')->group(function(){ Route::get('/periodos',[RevisionController::class,'periodos'])->name('periodos'); Route::get('/periodos/nuevo',[RevisionController::class,'crearPeriodo'])->name('periodos.create'); Route::post('/periodos',[RevisionController::class,'guardarPeriodo'])->name('periodos.store'); Route::get('/periodos/{periodo}/seleccionar',[RevisionController::class,'seleccionar'])->name('select'); Route::post('/periodos/{periodo}/iniciar',[RevisionController::class,'iniciar'])->name('start'); Route::get('/resguardos/{resguardo}/escanear',[RevisionController::class,'scan'])->name('scan'); Route::post('/resguardos/{resguardo}/buscar',[RevisionController::class,'buscar'])->name('scan.lookup'); Route::post('/resguardos/{resguardo}/reasignar/{articulo}',[RevisionController::class,'reasignar'])->name('reassign'); Route::get('/resguardos/{resguardo}/cierre',[RevisionController::class,'cierre'])->name('close'); Route::post('/resguardos/{resguardo}/cerrar',[RevisionController::class,'cerrarResguardo'])->name('close.store'); Route::post('/periodos/{periodo}/cerrar',[RevisionController::class,'cerrarPeriodo'])->name('period.close'); Route::get('/historico',[RevisionController::class,'historico'])->name('history'); });
+Route::get('/resguardos/{resguardo}/imprimir',[RevisionController::class,'imprimir'])->name('resguardo.print');

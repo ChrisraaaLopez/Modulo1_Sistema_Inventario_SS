@@ -3,9 +3,9 @@
 @section('title', 'Nuevo puesto')
 
 @section('content')
-<h1>Nuevo puesto</h1>
+<div class="page-header"><h1>Nuevo puesto</h1></div>
 
-<form action="{{ route('puestos.store') }}" method="POST" class="mt-3">
+<div class="card-form"><form action="{{ route('puestos.store') }}" method="POST" class="mt-3">
     @csrf
     <div class="mb-3">
         <label class="form-label">Nombre:</label>
@@ -20,5 +20,5 @@
     </div>
     <button type="submit" class="btn btn-primary">Guardar</button>
     <a href="{{ route('puestos.index') }}" class="btn btn-secondary">Cancelar</a>
-</form>
+</form></div>
 @endsection
