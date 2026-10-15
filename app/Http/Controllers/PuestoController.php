@@ -14,6 +14,7 @@ class PuestoController extends Controller
                 $nestedQuery->whereNull('status')->where('Estatus', 'Activo');
             });
         })->orderBy('Nombre')->paginate(15);
+
         return view('puestos.index', compact('puestos'));
     }
 
@@ -60,6 +61,7 @@ class PuestoController extends Controller
     public function destroy(Puesto $puesto)
     {
         $puesto->update(['Estatus' => 'Inactivo', 'status' => 'inactivo']);
+
         return redirect()->route('puestos.index')->with('ok', 'Puesto dado de baja correctamente');
     }
 }

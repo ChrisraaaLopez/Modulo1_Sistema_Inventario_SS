@@ -22,7 +22,7 @@ class AuthController extends Controller
         ]);
 
         $usuario = Usuario::with('rol')->where('Nombre_Usuario', $datos['Nombre_Usuario'])->first();
-        if (!$usuario || $usuario->Estatus !== 'Activo' || !Hash::check($datos['password'], $usuario->Password_Hash)) {
+        if (! $usuario || $usuario->Estatus !== 'Activo' || ! Hash::check($datos['password'], $usuario->Password_Hash)) {
             return back()->withErrors(['Nombre_Usuario' => 'Usuario o contraseña incorrectos, o cuenta inactiva.'])->onlyInput('Nombre_Usuario');
         }
 
@@ -30,6 +30,7 @@ class AuthController extends Controller
         $request->session()->regenerate();
         $usuario->Ultimo_Acceso = now();
         $usuario->save();
+
         return redirect()->intended(route('dashboard'));
     }
 
@@ -38,6 +39,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect()->route('login')->with('status', 'Sesión cerrada correctamente.');
     }
 }

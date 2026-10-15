@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Area;
 use App\Models\Empleado;
 use App\Models\Puesto;
-use App\Models\Area;
 use Illuminate\Http\Request;
 
 class EmpleadoController extends Controller
@@ -16,6 +16,7 @@ class EmpleadoController extends Controller
                 $nestedQuery->whereNull('status')->where('Estatus', 'Activo');
             });
         })->orderBy('Nombre')->paginate(15);
+
         return view('empleados.index', compact('empleados'));
     }
 
@@ -23,6 +24,7 @@ class EmpleadoController extends Controller
     {
         $puestos = Puesto::orderBy('Nombre')->get();
         $areas = Area::orderBy('Nombre')->get();
+
         return view('empleados.create', compact('puestos', 'areas'));
     }
 
@@ -53,13 +55,14 @@ class EmpleadoController extends Controller
     {
         $puestos = Puesto::orderBy('Nombre')->get();
         $areas = Area::orderBy('Nombre')->get();
+
         return view('empleados.edit', compact('empleado', 'puestos', 'areas'));
     }
 
     public function update(Request $request, Empleado $empleado)
     {
         $request->validate([
-            'N_Trabajador' => 'required|string|max:10|unique:empleados,N_Trabajador,' . $empleado->Id_Empleado . ',Id_Empleado',
+            'N_Trabajador' => 'required|string|max:10|unique:empleados,N_Trabajador,'.$empleado->Id_Empleado.',Id_Empleado',
             'Nombre' => 'required|string|max:50',
             'Apellido_Paterno' => 'required|string|max:50',
             'Apellido_Materno' => 'nullable|string|max:50',
@@ -82,6 +85,7 @@ class EmpleadoController extends Controller
     public function destroy(Empleado $empleado)
     {
         $empleado->update(['Estatus' => 'Inactivo', 'status' => 'inactivo']);
+
         return redirect()->route('empleados.index')->with('ok', 'Empleado dado de baja correctamente');
     }
 }

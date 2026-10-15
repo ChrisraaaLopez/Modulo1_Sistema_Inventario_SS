@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Modelo;
 use App\Models\Marca;
+use App\Models\Modelo;
 use App\Models\Tipo;
 use Illuminate\Http\Request;
 
@@ -16,6 +16,7 @@ class ModeloController extends Controller
                 $nestedQuery->whereNull('status')->where('Estatus', 'Activo');
             });
         })->orderBy('Nombre')->paginate(15);
+
         return view('modelos.index', compact('modelos'));
     }
 
@@ -27,6 +28,7 @@ class ModeloController extends Controller
             'FkId_Tipo' => 'required|exists:tipos,Id_Tipo',
         ]);
         $modelo = Modelo::firstOrCreate($data, ['Estatus' => 'Activo', 'status' => 'activo']);
+
         return response()->json(['Id_Modelo' => $modelo->Id_Modelo, 'Nombre' => $modelo->Nombre]);
     }
 
@@ -34,6 +36,7 @@ class ModeloController extends Controller
     {
         $marcas = Marca::where('Estatus', 'Activo')->orderBy('Nombre')->get();
         $tipos = Tipo::where('Estatus', 'Activo')->orderBy('Nombre')->get();
+
         return view('modelos.create', compact('marcas', 'tipos'));
     }
 
@@ -63,6 +66,7 @@ class ModeloController extends Controller
     {
         $marcas = Marca::where('Estatus', 'Activo')->orderBy('Nombre')->get();
         $tipos = Tipo::where('Estatus', 'Activo')->orderBy('Nombre')->get();
+
         return view('modelos.edit', compact('modelo', 'marcas', 'tipos'));
     }
 
@@ -91,6 +95,7 @@ class ModeloController extends Controller
     public function destroy(Modelo $modelo)
     {
         $modelo->update(['Estatus' => 'Inactivo', 'status' => 'inactivo']);
+
         return redirect()->route('modelos.index')->with('ok', 'Modelo dado de baja correctamente');
     }
 

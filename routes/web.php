@@ -1,19 +1,19 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ArticuloController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ArticuloController;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\ModeloController;
 use App\Http\Controllers\PuestoController;
+use App\Http\Controllers\RevisionController;
 use App\Http\Controllers\TipoController;
 use App\Http\Controllers\UbicacionController;
-use App\Http\Controllers\RevisionController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VehiculoController;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -54,8 +54,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('puestos', PuestoController::class)->except(['index']);
         Route::resource('tipos', TipoController::class)->except(['index']);
         Route::resource('ubicaciones', UbicacionController::class)
-    ->except(['index'])
-    ->parameters(['ubicaciones' => 'ubicacion']);
+            ->except(['index'])
+            ->parameters(['ubicaciones' => 'ubicacion']);
     });
 
     // Administrador y Revisor operan revisiones; Consulta solo ve histórico e impresión.
@@ -76,6 +76,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/periodos/nuevo', [RevisionController::class, 'crearPeriodo'])->name('periodos.create');
             Route::post('/periodos', [RevisionController::class, 'guardarPeriodo'])->name('periodos.store');
             Route::post('/periodos/{periodo}/cerrar', [RevisionController::class, 'cerrarPeriodo'])->name('period.close');
+            Route::post('/periodos/{periodo}/reabrir', [RevisionController::class, 'reabrirPeriodo'])->name('period.reopen');
+            Route::post('/resguardos/{resguardo}/reabrir', [RevisionController::class, 'reabrir'])->name('reopen');
         });
     });
 

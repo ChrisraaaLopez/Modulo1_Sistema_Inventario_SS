@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Modelo extends Model
 {
     protected $table = 'modelos';
+
     protected $primaryKey = 'Id_Modelo';
+
     public $timestamps = false;
 
     protected $fillable = ['Nombre', 'FkId_Marca', 'FkId_Tipo', 'URL_Imagen', 'Estatus', 'status'];

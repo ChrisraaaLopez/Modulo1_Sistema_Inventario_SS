@@ -12,6 +12,7 @@ class FacturaController extends Controller
     public function index()
     {
         $facturas = Factura::orderBy('Fecha', 'desc')->paginate(15);
+
         return view('facturas.index', compact('facturas'));
     }
 
@@ -26,6 +27,7 @@ class FacturaController extends Controller
         ]);
         $data['URL_Factura'] = '';
         $factura = Factura::create($data);
+
         return response()->json(['Id_Factura' => $factura->Id_Factura, 'Folio' => $factura->Folio, 'Proveedor' => $factura->Proveedor]);
     }
 
@@ -62,8 +64,9 @@ class FacturaController extends Controller
     public function archivo(Factura $factura): Response
     {
         $path = ltrim(str_replace('\\', '/', (string) $factura->URL_Factura), '/');
-        abort_if($path === '' || str_contains($path, '..') || !Storage::disk('public')->exists($path), 404, 'El PDF de esta factura no existe en el almacenamiento.');
-        return Storage::disk('public')->response($path, basename($path), ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'inline; filename="' . basename($path) . '"']);
+        abort_if($path === '' || str_contains($path, '..') || ! Storage::disk('public')->exists($path), 404, 'El PDF de esta factura no existe en el almacenamiento.');
+
+        return Storage::disk('public')->response($path, basename($path), ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'inline; filename="'.basename($path).'"']);
     }
 
     public function show(Factura $factura)
@@ -79,7 +82,7 @@ class FacturaController extends Controller
     public function update(Request $request, Factura $factura)
     {
         $request->validate([
-            'Folio' => 'required|string|max:50|unique:facturas,Folio,' . $factura->Id_Factura . ',Id_Factura',
+            'Folio' => 'required|string|max:50|unique:facturas,Folio,'.$factura->Id_Factura.',Id_Factura',
             'Fecha' => 'required|date',
             'Proveedor' => 'required|string|max:100',
             'Monto' => 'required|numeric|min:0',
@@ -101,6 +104,7 @@ class FacturaController extends Controller
     public function destroy(Factura $factura)
     {
         $factura->delete();
+
         return redirect()->route('facturas.index')->with('ok', 'Factura eliminada');
     }
 }
