@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Articulo extends Model
 {
     protected $table = 'articulos';
+
     protected $primaryKey = 'Id_Articulo';
+
     public $timestamps = false;
 
     protected $fillable = [
@@ -29,11 +31,38 @@ class Articulo extends Model
         $this->attributes['Estatus'] = is_string($value) ? ucfirst(strtolower($value)) : $value;
     }
 
-    public function marca()      { return $this->belongsTo(Marca::class, 'FkId_Marca'); }
-    public function modelo()     { return $this->belongsTo(Modelo::class, 'FkId_Modelo'); }
-    public function categoria()  { return $this->belongsTo(Categoria::class, 'FkId_Categoria'); }
-    public function tipo()       { return $this->belongsTo(Tipo::class, 'FkId_Tipo'); }
-    public function ubicacion()  { return $this->belongsTo(Ubicacion::class, 'FkId_Ubicacion'); }
-    public function empleado()   { return $this->belongsTo(Empleado::class, 'FkId_Empleado'); }
-    public function factura()    { return $this->belongsTo(Factura::class, 'FkId_Factura'); }
+    public function marca()
+    {
+        return $this->belongsTo(Marca::class, 'FkId_Marca');
+    }
+
+    public function modelo()
+    {
+        return $this->belongsTo(Modelo::class, 'FkId_Modelo');
+    }
+
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class, 'FkId_Categoria');
+    }
+
+    public function tipo()
+    {
+        return $this->belongsTo(Tipo::class, 'FkId_Tipo');
+    }
+
+    public function ubicacion()
+    {
+        return $this->belongsTo(Ubicacion::class, 'FkId_Ubicacion');
+    }
+
+    public function empleado()
+    {
+        return $this->belongsTo(Empleado::class, 'FkId_Empleado');
+    }
+
+    public function factura()
+    {
+        return $this->belongsTo(Factura::class, 'FkId_Factura');
+    }
 }

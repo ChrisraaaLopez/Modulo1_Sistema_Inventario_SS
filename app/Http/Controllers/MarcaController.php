@@ -14,6 +14,7 @@ class MarcaController extends Controller
                 $nestedQuery->whereNull('status')->where('Estatus', 'Activo');
             });
         })->orderBy('Nombre')->paginate(15);
+
         return view('marcas.index', compact('marcas'));
     }
 
@@ -21,6 +22,7 @@ class MarcaController extends Controller
     {
         $data = $request->validate(['Nombre' => 'required|string|max:100']);
         $marca = Marca::firstOrCreate(['Nombre' => trim($data['Nombre'])], ['Estatus' => 'Activo', 'status' => 'activo']);
+
         return response()->json(['Id_Marca' => $marca->Id_Marca, 'Nombre' => $marca->Nombre]);
     }
 
@@ -67,6 +69,7 @@ class MarcaController extends Controller
     public function destroy(Marca $marca)
     {
         $marca->update(['Estatus' => 'Inactivo', 'status' => 'inactivo']);
+
         return redirect()->route('marcas.index')->with('ok', 'Marca dada de baja correctamente');
     }
 }

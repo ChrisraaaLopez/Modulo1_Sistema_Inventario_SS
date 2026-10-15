@@ -14,6 +14,7 @@ class UbicacionController extends Controller
                 $nestedQuery->whereNull('status')->where('Estatus', 'Activo');
             });
         })->orderBy('Edificio')->orderBy('Nombre')->paginate(15);
+
         return view('ubicaciones.index', compact('ubicaciones'));
     }
 
@@ -64,6 +65,7 @@ class UbicacionController extends Controller
     public function destroy(Ubicacion $ubicacion)
     {
         $ubicacion->update(['Estatus' => 'Inactivo', 'status' => 'inactivo']);
+
         return redirect()->route('ubicaciones.index')->with('ok', 'Ubicación dada de baja correctamente');
     }
 }

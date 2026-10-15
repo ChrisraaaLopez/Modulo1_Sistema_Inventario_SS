@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Articulo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -89,7 +90,7 @@ class ArticuloImageUploadTest extends TestCase
             'Descripcion' => 'Laptop para pruebas',
         ]);
 
-        $articulo = \App\Models\Articulo::first();
+        $articulo = Articulo::first();
         $this->assertNotNull($articulo->URL_Imagen);
         $this->assertStringStartsWith('articulos/', $articulo->URL_Imagen);
         Storage::disk('public')->assertExists($articulo->URL_Imagen);
@@ -149,9 +150,9 @@ class ArticuloImageUploadTest extends TestCase
             'Estatus' => 'Activo',
         ]);
 
-        $path = \Illuminate\Support\Facades\Storage::disk('public')->put('articulos/test.jpg', 'test');
+        $path = Storage::disk('public')->put('articulos/test.jpg', 'test');
 
-        \App\Models\Articulo::create([
+        Articulo::create([
             'Descripcion' => 'Laptop con imagen',
             'FkId_Marca' => $marcaId,
             'FkId_Modelo' => $modeloId,
@@ -172,6 +173,6 @@ class ArticuloImageUploadTest extends TestCase
         $response = $this->get(route('articulos.index'));
 
         $response->assertOk();
-        $response->assertSee('/storage/' . $path);
+        $response->assertSee('/storage/'.$path);
     }
 }

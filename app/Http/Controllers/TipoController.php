@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tipo;
 use App\Models\Categoria;
+use App\Models\Tipo;
 use Illuminate\Http\Request;
 
 class TipoController extends Controller
@@ -15,12 +15,14 @@ class TipoController extends Controller
                 $nestedQuery->whereNull('status')->where('Estatus', 'Activo');
             });
         })->orderBy('Nombre')->paginate(15);
+
         return view('tipos.index', compact('tipos'));
     }
 
     public function create()
     {
         $categorias = Categoria::orderBy('Nombre')->get();
+
         return view('tipos.create', compact('categorias'));
     }
 
@@ -43,6 +45,7 @@ class TipoController extends Controller
     public function edit(Tipo $tipo)
     {
         $categorias = Categoria::orderBy('Nombre')->get();
+
         return view('tipos.edit', compact('tipo', 'categorias'));
     }
 
@@ -65,6 +68,7 @@ class TipoController extends Controller
     public function destroy(Tipo $tipo)
     {
         $tipo->update(['Estatus' => 'Inactivo', 'status' => 'inactivo']);
+
         return redirect()->route('tipos.index')->with('ok', 'Tipo dado de baja correctamente');
     }
 }

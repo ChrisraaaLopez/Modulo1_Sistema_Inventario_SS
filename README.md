@@ -1,37 +1,123 @@
-# Sistema de Inventario Escolar
+<div align="center">
 
-Laravel para control de artículos, revisión patrimonial, cuentas con roles y registro de vehículos escolares.
+<img src="assets/banner.svg" alt="Sistema Inventario" width="100%">
 
-## Cambios incluidos en esta versión
+<br>
 
-- Administración de cuentas: crear, editar, asignar rol, asociar empleado, cambiar contraseña y desactivar sin borrar el historial. Solo Administrador puede entrar a esta sección.
-- Registro de vehículos escolares: autobús (Toro), camionetas de transporte y otros; placas, VIN/serie, marca, modelo, año, capacidad, observaciones y estado.
-- Alta rápida de marca, modelo y factura desde el formulario de nuevo artículo, sin cambiar de pantalla.
-- Arreglo de la ruta de modelos por marca, con mensajes claros cuando la petición falla en lugar de dejar el selector en “Cargando…”.
-- Formulario de preparación de revisión con instrucciones para personas que no conocen el sistema.
-- Accesos protegidos por rol en el servidor; ocultar un enlace en el menú no sustituye la autorización de rutas.
+![Laravel](https://img.shields.io/badge/LARAVEL-13.X-FF2D20?style=for-the-badge&logo=laravel&logoColor=white&labelColor=555555)
+![PHP](https://img.shields.io/badge/PHP-8.3-777BB4?style=for-the-badge&logo=php&logoColor=white&labelColor=555555)
+![Tailwind](https://img.shields.io/badge/TAILWIND-4.X-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white&labelColor=555555)
+![Vite](https://img.shields.io/badge/VITE-8.X-646CFF?style=for-the-badge&logo=vite&logoColor=white&labelColor=555555)
+![MySQL](https://img.shields.io/badge/MYSQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white&labelColor=555555)
 
-## Instalación local con Laragon y MySQL
+![Estado](https://img.shields.io/badge/Estado-En_desarrollo-38BDF8?style=flat-square&labelColor=555555)
+![Servicio Social](https://img.shields.io/badge/Proyecto-Servicio_Social-8B5CF6?style=flat-square&labelColor=555555)
 
-1. Haz una copia de seguridad de tu base MySQL antes de aplicar cambios.
-2. Copia `.env.example` como `.env` y ajusta `DB_DATABASE`, `DB_USERNAME` y `DB_PASSWORD` según tu Laragon. No compartas el archivo `.env`.
-3. Instala dependencias con `composer install`.
-4. Genera una clave con `php artisan key:generate`.
-5. Revisa primero `php artisan migrate:status`. Si tu base existente no tiene un historial de migraciones consistente, **no ejecutes todas las migraciones a ciegas**: crea/añade la tabla `vehiculos` usando la migración `2026_10_12_000001_create_vehiculos_table.php` y registra esa migración de forma controlada. En una instalación limpia, ejecuta `php artisan migrate`.
-6. Ejecuta `php artisan storage:link` para imágenes y archivos.
-7. Ejecuta `php artisan serve` y abre `http://127.0.0.1:8000`.
+<br>
 
-## Roles
+Sistema de control de inventario hecho como **proyecto de servicio social**: un espacio para registrar los bienes de la institución, revisarlos físicamente con la cámara del celular y dejar constancia de **quién tuvo qué, y cuándo**.
 
-- **Administrador:** administra catálogos, artículos, cuentas de acceso, vehículos y periodos.
-- **Revisor:** realiza revisiones y consulta el histórico.
-- **Consulta:** consulta el inventario y el histórico.
+<sub>Documentación técnica, diagramas y decisiones de diseño en <code>docs/</code></sub>
 
-Crea las cuentas desde **Administración → Cuentas de acceso** una vez que exista al menos una cuenta Administrador activa. Las contraseñas nuevas deben tener mínimo 8 caracteres.
+</div>
 
-## Importante
+---
 
-- El ZIP no incluye `.env`, contraseñas ni la base de datos real.
-- Los roles deben existir en `roles` con los nombres `Administrador`, `Revisor` y `Consulta`.
-- Las tablas `usuarios`, `roles`, `empleados`, `marcas`, `modelos`, `tipos` y `facturas` deben conservar los nombres de columnas usados por los modelos.
-- El formulario de artículo requiere categoría, tipo, ubicación y empleado responsable; completa primero esos catálogos.
+## ✨ Características
+
+- Registro de artículos con marca, modelo, no. de serie, categoría, tipo, ubicación, responsable, estado y clasificación patrimonial.
+- Catálogos normalizados: la marca filtra dinámicamente los modelos disponibles.
+- Alta rápida de marca, modelo y factura desde el formulario de artículo, sin cambiar de pantalla.
+- Facturas con folio, proveedor y monto, con el PDF consultable dentro del sistema.
+- Imagen de referencia por modelo para comparar visualmente en campo.
+- Registro de vehículos escolares (placas, serie, marca, modelo, año, capacidad y estado).
+- Baja de artículos con registro histórico.
+- Periodos de revisión (abiertos / cerrados) por ubicación.
+- Lectura de **QR y código de barras** desde el navegador del celular.
+
+## 📱 Escaneo QR local
+
+Para usar la cámara del teléfono en la revisión patrimonial, el sitio debe servirse con HTTPS en la misma red local. En Laragon suele bastar con habilitar el SSL del sitio o usar un certificado local con mkcert y apuntar la app a la URL segura: `https://localhost` o `https://inventario.local`.
+
+1. Activa el SSL del proyecto en Laragon o genera un certificado local con `mkcert`.
+2. Asegúrate de que la URL pública del proyecto coincida con el `APP_URL` del entorno.
+3. En el navegador móvil, abre la URL HTTPS y acepta el acceso a la cámara.
+4. Si el escáner no inicia, revisa que la página se esté sirviendo por HTTPS y que el navegador permita permisos de cámara.
+
+## 🔐 Seguridad
+
+- La reapertura de un resguardo o periodo requiere la contraseña de administrador configurada en `REVISION_ADMIN_PASSWORD`.
+- El modo de depuración se mantiene apagado en producción y solo debe activarse temporalmente para diagnóstico.
+- Artículos revisados en verde, faltantes en rojo y detección de artículos fuera de lugar con opción de reasignarlos.
+- Resguardos imprimibles para firma del empleado responsable.
+- Un periodo cerrado queda como histórico y no se modifica sin autorización del administrador.
+- Cuentas con roles, empleado asociado y desactivación sin perder el historial.
+- Rutas protegidas por rol en el servidor, no solo ocultando enlaces del menú.
+
+## 👥 Roles
+
+| Rol | Alcance |
+| --- | --- |
+| **Administrador** | Catálogos, artículos, cuentas, vehículos, periodos y reapertura de periodos cerrados |
+| **Revisor** | Revisiones por escaneo y consulta del histórico |
+| **Consulta** | Solo lectura de inventario e histórico |
+
+## 🧱 Stack
+
+| Capa | Tecnología |
+| --- | --- |
+| Backend | Laravel 13 · PHP 8.3 |
+| Frontend | Blade · Tailwind CSS 4 · Vite 8 |
+| Base de datos | MySQL 8 |
+| Despliegue | Red local de la institución (sin exposición a internet pública) |
+
+## 🗂️ Estructura
+
+```
+├── app/          # Modelos, controladores y lógica
+├── database/     # Migraciones y seeders
+├── resources/    # Vistas Blade, CSS y JS
+├── routes/       # Rutas web
+├── docs/         # ERS, diagramas y decisiones de diseño
+└── assets/       # Recursos del README
+```
+
+## 🤝 Colaboradores
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/ChrisraaaLopez">
+        <img src="https://github.com/ChrisraaaLopez.png?size=100" width="100" height="100" alt="ChrisraaaLopez"><br>
+        <sub><b>ChrisraaaLopez</b></sub>
+      </a><br>
+      <sub>Desarrollo</sub>
+    </td>
+   
+    <td align="center">
+      <a href="https://github.com/OsvaldoMarGal">
+        <img src="https://github.com/OsvaldoMarGal.png?size=100" width="100" height="100" alt="OsvaldoMarGal"><br>
+        <sub><b>OsvaldoMarGal</b></sub>
+      </a><br>
+      <sub>Desarrollo</sub>
+    </td>
+
+    <td align="center">
+      <a href="https://github.com/CDiazMC23">
+        <img src="https://github.com/CDiazMC23.png?size=100" width="100" height="100" alt="CDiazMC23"><br>
+        <sub><b>CDiazMC23</b></sub>
+      </a><br>
+      <sub>Desarrollo</sub>
+    </td>
+  </tr>
+</table>
+
+<a href="https://github.com/ChrisraaaLopez/Sistema_Inventario_SS/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ChrisraaaLopez/Sistema_Inventario_SS" alt="Contribuidores">
+</a>
+
+---
+
+<div align="center">
+<sub>Proyecto de Servicio Social</sub>
+</div>

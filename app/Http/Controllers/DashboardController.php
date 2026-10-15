@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Articulo;
 use App\Models\Empleado;
-use App\Models\Marca;
 use App\Models\Factura;
+use App\Models\Marca;
 use App\Models\Periodo;
 use App\Models\Resguardo;
 use Illuminate\Support\Facades\DB;
@@ -27,6 +27,7 @@ class DashboardController extends Controller
         $periodosRecientes = Periodo::withCount('resguardos')->orderByDesc('Id_Periodo')->limit(5)->get();
         $articulosPorEstado = Articulo::select('Estado', DB::raw('COUNT(*) as total'))
             ->groupBy('Estado')->orderBy('Estado')->get();
+
         return view('dashboard', compact('totales', 'periodoActivo', 'periodosRecientes', 'articulosPorEstado'));
     }
 }
