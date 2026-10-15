@@ -85,36 +85,30 @@ Para usar la cámara del teléfono en la revisión patrimonial, el sitio debe se
 ## 🤝 Colaboradores
 
 <table>
-  <tr>
-    <td align="center">
-      <a href="https://github.com/ChrisraaaLopez">
-        <img src="https://github.com/ChrisraaaLopez.png?size=100" width="100" height="100" alt="ChrisraaaLopez"><br>
-        <sub><b>ChrisraaaLopez</b></sub>
-      </a><br>
-      <sub>Desarrollo</sub>
-    </td>
-   
-    <td align="center">
-      <a href="https://github.com/OsvaldoMarGal">
-        <img src="https://github.com/OsvaldoMarGal.png?size=100" width="100" height="100" alt="OsvaldoMarGal"><br>
-        <sub><b>OsvaldoMarGal</b></sub>
-      </a><br>
-      <sub>Desarrollo</sub>
-    </td>
-
-    <td align="center">
-      <a href="https://github.com/CDiazMC23">
-        <img src="https://github.com/CDiazMC23.png?size=100" width="100" height="100" alt="CDiazMC23"><br>
-        <sub><b>CDiazMC23</b></sub>
-      </a><br>
-      <sub>Desarrollo</sub>
-    </td>
-  </tr>
+<tr>
+<td align="center">
+<a href="https://github.com/ChrisraaaLopez">
+<img src="https://github.com/ChrisraaaLopez.png?size=100" width="100" height="100" alt="ChrisraaaLopez"><br>
+<sub><b>ChrisraaaLopez</b></sub>
+</a><br>
+<sub>Desarrollo</sub>
+</td>
+<td align="center">
+<a href="https://github.com/OsvaldoMarGal">
+<img src="https://github.com/OsvaldoMarGal.png?size=100" width="100" height="100" alt="OsvaldoMarGal"><br>
+<sub><b>OsvaldoMarGal</b></sub>
+</a><br>
+<sub>Desarrollo</sub>
+</td>
+<td align="center">
+<a href="https://github.com/CDiazMC23">
+<img src="https://github.com/CDiazMC23.png?size=100" width="100" height="100" alt="CDiazMC23"><br>
+<sub><b>CDiazMC23</b></sub>
+</a><br>
+<sub>Desarrollo</sub>
+</td>
+</tr>
 </table>
-
-<a href="https://github.com/ChrisraaaLopez/Sistema_Inventario_SS/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=ChrisraaaLopez/Sistema_Inventario_SS" alt="Contribuidores">
-</a>
 
 ---
 
